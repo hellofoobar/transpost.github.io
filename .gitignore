@@ -1,0 +1,4 @@
+# System folders
+###################
+.DS_Store
+.vscode
