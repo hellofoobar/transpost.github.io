@@ -39,6 +39,7 @@
 				}
 			});
 
+
 		// Display navigation after resize window
 			$window.resize(function(){
 				if($window.width() > 736){
@@ -51,53 +52,9 @@
 
 		// Load website
 			$window.on('load', function(){
-			
-			// Get current geolocation information
-				var lat = 49.250946,   //default: BCIT, Burnaby, BC
-				lng = -123.002575;
-				if (navigator.geolocation) {
-					navigator.geolocation.getCurrentPosition(function(location){
-						lat = location.coords.latitude;
-				 		lng = location.coords.longitude;
-					});
-				} else {
-					//alert("no");
-					toastr.warning("Get Geolocation infomation failed.");
-				}
 				
-			// Sunrise/sunset time is powered by [SunCalc](https://github.com/mourner/suncalc)
 			// Get current time and set greeting message
 				var time = new Date();
-
-				// Show current time
-				setInterval(function(){
-					var curr_time = new Date();
-					$('#showtime').text(
-									//('0' + curr_time.getHours()).slice(-2)
-									//+ ' : ' 
-									//+ ('0' + curr_time.getMinutes()).slice(-2)
-									//+ ' : '
-									//+ ('0' + curr_time.getSeconds()).slice(-2)
-									curr_time.toLocaleTimeString()
-									);
-					}
-					, 1000);
-
-				// Set greeting message 
-				var sunTimes   = SunCalc.getTimes(time, lat, lng);
-					// sunrise = sunTimes.sunrise.getHours(),
-					sunset  = sunTimes.sunset.getHours(),
-					noon    = 12;
-					midnight= 0;
-					curr    = time.getHours();
-
-				if(curr > midnight && curr < noon){
-					$('#greeting').html("Good Morning!");
-				} else if(curr >= noon && curr < sunset) {
-					$('#greeting').html("Good Afternoon!");
-				} else {
-					$('#greeting').html("Good Evening!");
-				}
 
 			// Use CORS Anywhere to set the CORS headers
 				$.ajaxPrefilter( function (options) {
@@ -120,15 +77,46 @@
 					});
 				});
 
-			// Dynamic text using typed.js
-				$("#text-dynamic").typed({
-					strings: ["a BCITer.", "a Coder.", "a Learner.", "a Hiker.", "Alex."],
-					typeSpeed: 80,
-					startDelay: 1000,
-					backspeed: 2000,
-					showCursor: false,
-				});
 				$('#copyright').html('&copy; ' + time.getFullYear());
+			});
+
+			$("#submit").click(function(){
+
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(getLocation);
+				} else {
+					//alert("no");
+					toastr.warning("Get Geolocation infomation failed.");
+				}
+				function getLocation(location){
+					lati = location.coords.latitude.toFixed(6);
+					long = location.coords.longitude.toFixed(6);
+					
+					var trans1 = 'http://api.translink.ca/rttiapi/v1/stops?apikey=Kwqwi28lOEd4VGhOV1G7&lat=';
+					var	trans2 = '&long=';
+					var transurl = trans1 + lati + trans2 + long;
+
+					$.ajax({
+						url: transurl,
+						dataType: 'json',
+						success:function(res){
+							//alert(res);
+						}
+					});		
+				}
+
+				var add = $('#destination').val();
+				var google = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
+				var googleapi = 'Vancouver,+CANADA&key=AIzaSyAKaJIupFu06_xES1fWII_bzCgtW1Iwcb8';
+
+				$.ajax({
+					url: google + add + googleapi,
+					dataType: 'json',
+					success:function(res){
+						var rest = res.results[0].geometry.location;
+						alert(rest);
+					}
+				});	
 			});
 
 		// Touch mode.

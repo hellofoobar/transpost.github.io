@@ -26,10 +26,12 @@
 		<!-- Intro -->
 			<section id="intro" class="main style1 dark fullscreen">
 				<div class="content">
-					<header>
+					<header> 
 					</header>
 					<div class="text-intro">
-						
+						<button type="button" id="submit">GetAddress</button>
+						<input type="text" placeholder="Your Destination" id="destination"></input>
+						<p id="result"></p>
 					</div>
 					<footer>
 						<a href="#one" class="button style2 down">More</a>
@@ -67,9 +69,39 @@
 			<script src="assets/js/jquery.scrollex.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
-			<script src="assets/js/typed.js"></script>
 			<script src="assets/js/toastr.min.js"></script>
-			<script src="assets/js/suncalc.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script async defer
+		    	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKaJIupFu06_xES1fWII_bzCgtW1Iwcb8&callback=initMap">
+		    </script>
+		<script>
+// 			function initMap() {
+// 	        	var geocoder = new google.maps.Geocoder;
+
+// 	        	document.getElementById('ga').addEventListener('click', function() {
+// 	          		geocodeLatLng(geocoder);
+// 	        	});
+// 	      	}
+
+// 			function geocodeLatLng(geocoder) {
+// 			    navigator.geolocation.getCurrentPosition(function(location){
+// 	                lati = location.coords.latitude;
+// 	                long = location.coords.longitude;
+//             	});
+
+// 				var latlng = {lat: lati,lng: long};
+// 	            geocoder.geocode({'location': latlng}, function(results, status){
+// 	                if (status === 'OK') {
+// 	                    if (results[1]) {
+// 	                        document.getElementById("result").innerText = results[0].formatted_address;
+// 	                    } else {
+// 	                     	 window.alert('No results found');
+// 	                    }
+// 	                } else {
+// 	                    window.alert('Geocoder failed due to: ' + status);
+// 	                }
+// 	            });
+// 			}
+		</script>
 	</body>
 </html>
